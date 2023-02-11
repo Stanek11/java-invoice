@@ -23,21 +23,66 @@ public class Invoice {
     }
 
     public void addProduct(Product product, Integer quantity) {
-        if  (quantity <= 0) {
+        if (quantity <= 0) {
 
             throw new IllegalArgumentException("Quantity can not be negative");
         }
+        for (int i = 0; i < quantity; i++) {
+            this.products.add(product);
+        }
     }
-
     public BigDecimal getSubtotal() {
-        return null;
-    }
+        BigDecimal subtotal = BigDecimal.ZERO;
+        if (products.isEmpty()) {
 
-    public BigDecimal getTax() {
-        return null;
+            return subtotal;
+        }
+        for (Product product : products) {
+            subtotal = subtotal.add(product.getPrice());
+        }
+        return subtotal;
     }
+    public BigDecimal getTax() {
+            BigDecimal taxAmount = BigDecimal.ZERO;
+
+            if (products.isEmpty()) {
+                return taxAmount;
+            }
+            for (Product product : products) {
+                taxAmount = taxAmount.add(product.getPrice().multiply(product.getTaxPercent()));
+            }
+            return taxAmount;
+        }
+
+
 
     public BigDecimal getTotal() {
-        return null;
+
+        BigDecimal total = BigDecimal.ZERO;
+
+        if (products.isEmpty()) {
+            return total;
+        }
+        for (Product product : products) {
+            total = total.add(product.getPriceWithTax());
+        }
+        return total;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
