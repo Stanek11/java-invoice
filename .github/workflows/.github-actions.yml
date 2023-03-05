@@ -1,7 +1,7 @@
 name: CI for Java Invoice
 on: [push]
 jobs:
-  jobs:
+  lint:
     name: Check code with checkstyle
     runs-on: ubuntu-latest
     steps:
@@ -13,3 +13,16 @@ jobs:
           distribution: 'adopt'
       - name: Checkstyle
         run: mvn checkstyle:check
+
+test:
+  name: Check code with checkstyle
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '15'
+        distribution: 'adopt'
+    - name: Checkstyle
+      run: mvn checkstyle:check
