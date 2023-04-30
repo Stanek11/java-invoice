@@ -1,3 +1,4 @@
+
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
@@ -7,9 +8,37 @@ import java.util.Map;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Map<Product, Integer> products = new HashMap<Product, Integer>();
+    private final Map<Product, Integer> products = new HashMap<Product, Integer>();
+    public final int invoiceNumber;
+    public static int nextNumber = 1;
+
+    public Invoice() {
+
+        this.invoiceNumber = ++nextNumber;
+    }
+
+
+    public void printInvoice() {
+        System.out.println("Number of Invoice: " + getInvoiceNumber());
+
+        for (Product product : products.keySet()) {
+            System.out.println(product.getName() + " " + products.get(product) + " " + product.getPrice() + "zł");
+        }
+        System.out.println("Number of items: " + getNumberOfItems());
+    }
+
+    public int getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public int getNumberOfItems() {
+        return products.size();
+    }
 
     public void addProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException();
+        }
         addProduct(product, 1);
     }
 
@@ -18,6 +47,8 @@ public class Invoice {
             throw new IllegalArgumentException();
         }
         products.put(product, quantity);
+
+
     }
 
     public BigDecimal getNetTotal() {

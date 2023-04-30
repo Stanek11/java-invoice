@@ -10,9 +10,12 @@ public abstract class Product {
     private final BigDecimal taxPercent;
 
     protected Product(String name, BigDecimal price, BigDecimal tax) {
-        if (name == null || name.equals("") || price == null || tax == null || tax.compareTo(new BigDecimal(0)) < 0
-                || price.compareTo(new BigDecimal(0)) < 0) {
-            throw new IllegalArgumentException();
+        if (name == null || name.equals("")) {
+
+            throw new IllegalArgumentException("Nazwa produktu nie może być pusta");
+        }
+        if (price == null || (price.compareTo(BigDecimal.ZERO)) <= 0) {
+            throw new IllegalArgumentException("Cena nie może być pusta lub równa zero");
         }
         this.name = name;
         this.price = price;
@@ -20,18 +23,18 @@ public abstract class Product {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return this.price;
     }
 
     public BigDecimal getTaxPercent() {
-        return taxPercent;
+        return this.taxPercent;
     }
 
     public BigDecimal getPriceWithTax() {
-        return price.multiply(taxPercent).add(price);
+        return this.getPrice().multiply(this.taxPercent).add(this.price);
     }
 }
